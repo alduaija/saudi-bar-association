@@ -9,11 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
       :root {
-        /* لوحة ألوان متناغمة وفخمة */
-        --sba-navy: #1b4d79;        /* الأزرق النيلي الأساسي */
-        --sba-gold: #b38e44;        /* الذهبي الملكي (بديل للفسفوري) */
-        --sba-green-muted: #5c7c32; /* الأخضر الوقور المتناسق مع الأزرق */
-        --sba-sky-soft: #e8f4f9;    /* أزرق سماوي هادئ للخلفيات */
+        --sba-navy: #1b4d79;
+        --sba-gold: #b38e44;
+        --sba-green-muted: #5c7c32;
+        --sba-sky-soft: #e8f4f9;
         --sba-text-main: #2d3748;
         --sba-bg: #f4f7f9;
       }
@@ -38,7 +37,6 @@
         box-shadow: 0 12px 25px -10px rgba(27, 77, 121, 0.1);
       }
 
-      /* تحسين مظهر الأزرار */
       .btn-primary {
         background-color: var(--sba-navy);
         color: white;
@@ -51,17 +49,14 @@
         box-shadow: 0 4px 12px rgba(27, 77, 121, 0.2);
       }
 
-      .btn-gold {
-        background-color: var(--sba-gold);
-        color: white;
-        border-radius: 0.75rem;
-        font-weight: 700;
-      }
-
       ::-webkit-scrollbar { width: 5px; }
       ::-webkit-scrollbar-track { background: #f1f1f1; }
       ::-webkit-scrollbar-thumb { background: var(--sba-navy); border-radius: 10px; }
     </style>
+    <script>
+      // Shim for process.env to prevent crashes on GitHub Pages
+      window.process = { env: { API_KEY: "" } };
+    </script>
     <script type="importmap">
     {
       "imports": {
@@ -77,5 +72,6 @@
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

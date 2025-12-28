@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
   BookOpen, 
@@ -7,23 +7,18 @@ import {
   Users, 
   BarChart3, 
   CreditCard,
-  Bell,
-  Menu,
-  X,
   LogOut,
-  Search,
-  UserCircle,
-  CheckCircle2,
-  AlertCircle
+  Menu,
+  X
 } from 'lucide-react';
 
-import Dashboard from './pages/Dashboard';
-import CourseManagement from './pages/CourseManagement';
-import LegalPortal from './pages/LegalPortal';
-import MarketingSales from './pages/MarketingSales';
-import UserManagement from './pages/UserManagement';
-import AnalyticsCenter from './pages/AnalyticsCenter';
-import AIChatbot from './components/AIChatbot';
+import Dashboard from './pages/Dashboard.tsx';
+import CourseManagement from './pages/CourseManagement.tsx';
+import LegalPortal from './pages/LegalPortal.tsx';
+import MarketingSales from './pages/MarketingSales.tsx';
+import UserManagement from './pages/UserManagement.tsx';
+import AnalyticsCenter from './pages/AnalyticsCenter.tsx';
+import AIChatbot from './components/AIChatbot.tsx';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -49,17 +44,28 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f4f7f9]" dir="rtl">
-      {/* Sidebar */}
+      {/* Notifications */}
+      <div className="fixed top-6 left-6 z-[100] space-y-3 pointer-events-none">
+        {notifications.map(n => (
+          <div key={n.id} className={`px-6 py-3 rounded-xl shadow-2xl border flex items-center gap-3 animate-in slide-in-from-left duration-300 pointer-events-auto ${
+            n.type === 'success' ? 'bg-white border-green-100 text-[#5c7c32]' : 'bg-white border-blue-100 text-[#1b4d79]'
+          }`}>
+            <div className={`w-2 h-2 rounded-full ${n.type === 'success' ? 'bg-[#5c7c32]' : 'bg-[#1b4d79]'}`}></div>
+            <span className="text-xs font-bold">{n.text}</span>
+          </div>
+        ))}
+      </div>
+
       <aside className={`${isSidebarOpen ? 'w-[280px]' : 'w-20'} transition-all duration-300 ease-in-out bg-[#1b4d79] text-white flex flex-col z-50 shadow-xl`}>
         <div className="h-24 flex items-center px-6 border-b border-white/5">
           <div className="flex items-center gap-3 overflow-hidden">
-             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-inner">
+             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
                 <Gavel className="text-[#1b4d79] w-5 h-5" />
              </div>
              {isSidebarOpen && (
                <div className="flex flex-col whitespace-nowrap">
                   <span className="font-bold text-base">هيئة المحامين</span>
-                  <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider">Saudi Bar Association</span>
+                  <span className="text-[9px] text-white/40 font-bold uppercase">Saudi Bar Association</span>
                </div>
              )}
           </div>
@@ -72,12 +78,9 @@ const App: React.FC = () => {
             return (
               <button
                 key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  if (window.innerWidth < 768) setSidebarOpen(false);
-                }}
+                onClick={() => setActiveTab(item.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all group relative ${
-                  isActive ? 'bg-white/10 text-white border border-white/10 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/5'
+                  isActive ? 'bg-white/10 text-white shadow-sm border border-white/10' : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <Icon size={18} className={isActive ? 'text-[#b38e44]' : 'text-white/40 group-hover:text-white'} />
@@ -89,24 +92,18 @@ const App: React.FC = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-40 sticky top-0 shadow-sm">
-          <div className="flex items-center gap-6">
-             <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 text-slate-400 hover:text-[#1b4d79] transition-all">
-               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-             </button>
-          </div>
-          <div className="flex items-center gap-4">
-             <button onClick={() => showToast('تم تسجيل الخروج بنجاح')} className="flex items-center gap-2 px-4 py-2 bg-[#1b4d79] text-white rounded-lg font-bold text-[11px] shadow-sm hover:bg-[#153a5c] transition-all">
-                <LogOut size={12} />
-                <span>الخروج</span>
-             </button>
-          </div>
+        <header className="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-40 shadow-sm">
+          <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 text-slate-400 hover:text-[#1b4d79]">
+            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+          <button onClick={() => showToast('تم تسجيل الخروج')} className="flex items-center gap-2 px-4 py-2 bg-[#1b4d79] text-white rounded-lg font-bold text-[11px]">
+             <LogOut size={12} /> الخروج
+          </button>
         </header>
 
         <div className="flex-1 overflow-y-auto px-8 py-8">
-           <div className="max-w-7xl mx-auto space-y-8 pb-10">
+           <div className="max-w-7xl mx-auto space-y-8">
              {activeTab === 'dashboard' && <Dashboard onAction={showToast} />}
              {activeTab === 'courses' && <CourseManagement onAction={showToast} />}
              {activeTab === 'legal' && <LegalPortal onAction={showToast} />}
